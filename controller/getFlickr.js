@@ -17,18 +17,18 @@ module.exports = {
             })
             const startIndex = (page - 1) * limit
             const endIndex = page * limit
-            let next
+            let next = null
             if (endIndex < result.length){
                 next = `https://aia-be.herokuapp.com/api/v1/getFlickr?page=${page + 1}&search=${search}`
             }
-            let previous
+            let previous = null
             if (startIndex > 0){
                 previous = `https://aia-be.herokuapp.com/api/v1/getFlickr?page=${page - 1}&search=${search}`
             }
             res.status(200).json({
                 next,
                 previous,
-                result: result.slice(startIndex, endIndex)
+                data: result.slice(startIndex, endIndex)
             });
         } catch (e) {
             res.status(500).json({
