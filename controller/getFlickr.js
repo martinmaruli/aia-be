@@ -10,7 +10,7 @@ module.exports = {
             const result = json.items.map( (el) => {
                 return {
                     title: el.title,
-                    link: el.link
+                    link: el.media.m
                 }
             })
             res.status(200).json(result);
