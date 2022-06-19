@@ -18,8 +18,8 @@ module.exports = {
 
             const startIndex = (page - 1) * limit
             const endIndex = page * limit
-            
-            const allPage = 0
+
+            let allPage = 0
             if((result.length % limit) == 0){
                 allPage = result.length / limit
             }else{
