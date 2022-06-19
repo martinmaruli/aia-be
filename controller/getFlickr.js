@@ -25,19 +25,9 @@ module.exports = {
             }else{
                 allPage = (result.length / limit) + 1
             }
-            
-            let next = null
-            if (endIndex < result.length){
-                next = `https://aia-be.herokuapp.com/api/v1/getFlickr?page=${page + 1}&search=${search}`
-            }
-            let previous = null
-            if (startIndex > 0){
-                previous = `https://aia-be.herokuapp.com/api/v1/getFlickr?page=${page - 1}&search=${search}`
-            }
+ 
             res.status(200).json({
                 allPage,
-                next,
-                previous,
                 data: result.slice(startIndex, endIndex)
             });
         } catch (e) {
