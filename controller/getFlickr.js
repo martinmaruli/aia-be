@@ -9,14 +9,16 @@ module.exports = {
             const data = await fetch(`https://api.flickr.com/services/feeds/photos_public.gne?lang=en-us&format=json&nojsoncallback=1&tags=${search}`)
             const text = await data.text()
             const json = JSON.parse(text)
-            const result = json.items.map( (el) => {
+            const result = await json.items.map( (el) => {
                 return {
                     title: el.title,
                     link: el.media.m
                 }
             })
+
             const startIndex = (page - 1) * limit
             const endIndex = page * limit
+            
             let next = null
             if (endIndex < result.length){
                 next = `https://aia-be.herokuapp.com/api/v1/getFlickr?page=${page + 1}&search=${search}`
