@@ -3,6 +3,8 @@ const fetch = require("node-fetch")
 module.exports = {
     getFlickr : async (req, res) => {
         const {search} = req.body
+        const page = req.query.page
+        const limit = 4
         try {
             const data = await fetch(`https://api.flickr.com/services/feeds/photos_public.gne?lang=en-us&format=json&nojsoncallback=1&tags=${search}`)
             const text = await data.text()
@@ -13,7 +15,21 @@ module.exports = {
                     link: el.media.m
                 }
             })
-            res.status(200).json(result);
+            const startIndex = (page - 1) * limit
+            const endIndex = page * limit
+            let next
+            if (endIndex < result.length){
+                next = `https://aia-be.herokuapp.com/api/v1/getFlickr?page=${page + 1}&search=${search}`
+            }
+            let previous
+            if (startIndex > 0){
+                previous = `https://aia-be.herokuapp.com/api/v1/getFlickr?page=${page - 1}&search=${search}`
+            }
+            res.status(200).json({
+                next,
+                previous,
+                result: result.slice(startIndex, endIndex)
+            });
         } catch (e) {
             res.status(500).json({
                 message: e.message,
