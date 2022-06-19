@@ -19,6 +19,13 @@ module.exports = {
             const startIndex = (page - 1) * limit
             const endIndex = page * limit
             
+            const allPage = 0
+            if((result.length % limit) == 0){
+                allPage = result.length / limit
+            }else{
+                allPage = (result.length / limit) + 1
+            }
+            
             let next = null
             if (endIndex < result.length){
                 next = `https://aia-be.herokuapp.com/api/v1/getFlickr?page=${page + 1}&search=${search}`
@@ -28,6 +35,7 @@ module.exports = {
                 previous = `https://aia-be.herokuapp.com/api/v1/getFlickr?page=${page - 1}&search=${search}`
             }
             res.status(200).json({
+                allPage,
                 next,
                 previous,
                 data: result.slice(startIndex, endIndex)
